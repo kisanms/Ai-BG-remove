@@ -4,11 +4,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite --host 0.0.0.0",
-    "build": "tsc && vite build",
-    "preview": "vite preview --host 0.0.0.0",
-    "postinstall": "node scripts/copy-imgly-assets.mjs"
-  },
+  "dev": "vite --host 0.0.0.0",
+  "prebuild": "node scripts/copy-imgly-assets.mjs",
+  "build": "tsc && vite build",
+  "preview": "vite preview --host 0.0.0.0",
+  "postinstall": "node scripts/copy-imgly-assets.mjs"
+},
   "dependencies": {
     "@imgly/background-removal": "^1.7.0",
     "@vitejs/plugin-react": "^4.3.4",
