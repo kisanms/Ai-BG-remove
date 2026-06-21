@@ -10,15 +10,22 @@ import {
   Sparkles,
   Sun,
   Upload,
-  Zap
+  Zap,
 } from "lucide-react";
 import { removeBackground } from "@imgly/background-removal";
 
 const MarketingSections = lazy(() => import("./MarketingSections"));
 
-type Stage = "idle" | "uploading" | "analyzing" | "removing" | "preparing" | "done" | "error";
+type Stage =
+  | "idle"
+  | "uploading"
+  | "analyzing"
+  | "removing"
+  | "preparing"
+  | "done"
+  | "error";
 
-const navItems = ["Home", "Features", "Upload", "Pricing", "FAQ", "Contact"];
+const navItems = ["Home", "Features", "Upload", "FAQ", "Contact"];
 const statusText: Record<Stage, string> = {
   idle: "Ready for your image",
   uploading: "Uploading image...",
@@ -26,7 +33,7 @@ const statusText: Record<Stage, string> = {
   removing: "Removing Background...",
   preparing: "Preparing HD Result...",
   done: "Transparent PNG ready",
-  error: "Something went wrong"
+  error: "Something went wrong",
 };
 
 // Resolved once per page load: do we have the AI model assets hosted
@@ -38,7 +45,9 @@ let localImglyAssetsPromise: Promise<string | undefined> | null = null;
 function getImglyPublicPath(): Promise<string | undefined> {
   if (!localImglyAssetsPromise) {
     const localPath = `${window.location.origin}/imgly/`;
-    localImglyAssetsPromise = fetch(`${localPath}resources.json`, { method: "HEAD" })
+    localImglyAssetsPromise = fetch(`${localPath}resources.json`, {
+      method: "HEAD",
+    })
       .then((res) => (res.ok ? localPath : undefined))
       .catch(() => undefined);
   }
@@ -80,7 +89,11 @@ function App() {
               : "bg-transparent py-2"
           }`}
         >
-          <a href="#home" className="flex items-center gap-3" aria-label="ClearCut AI home">
+          <a
+            href="#home"
+            className="flex items-center gap-3"
+            aria-label="ClearCut AI home"
+          >
             <span className="grid h-10 w-10 place-items-center rounded-2xl bg-ink shadow-glow dark:bg-white">
               <Sparkles className="h-5 w-5 text-white dark:text-ink" />
             </span>
@@ -91,7 +104,11 @@ function App() {
 
           <div className="hidden items-center gap-7 rounded-full px-5 text-sm font-semibold text-slate-600 dark:text-slate-300 lg:flex">
             {navItems.map((item) => (
-              <a key={item} href={`#${item.toLowerCase()}`} className="nav-link">
+              <a
+                key={item}
+                href={`#${item.toLowerCase()}`}
+                className="nav-link"
+              >
                 {item}
               </a>
             ))}
@@ -103,7 +120,11 @@ function App() {
               onClick={() => setDark((value) => !value)}
               className="grid h-10 w-10 place-items-center rounded-full border border-slate-200 bg-white/70 text-slate-700 backdrop-blur transition hover:scale-105 dark:border-white/10 dark:bg-white/10 dark:text-white"
             >
-              {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              {dark ? (
+                <Sun className="h-4 w-4" />
+              ) : (
+                <Moon className="h-4 w-4" />
+              )}
             </button>
             <a href="#upload" className="btn-primary hidden sm:inline-flex">
               Upload Image
@@ -125,7 +146,10 @@ function App() {
 
 function Hero() {
   return (
-    <section id="home" className="relative min-h-screen px-5 pt-32 md:px-8 lg:pt-40">
+    <section
+      id="home"
+      className="relative min-h-screen px-5 pt-32 md:px-8 lg:pt-40"
+    >
       <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-[1.02fr_.98fr]">
         <motion.div
           initial={{ opacity: 0, y: 26 }}
@@ -140,7 +164,8 @@ function Hero() {
             Remove Backgrounds Instantly with AI
           </h1>
           <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-600 dark:text-slate-300 md:text-xl">
-            Upload any image and get a clean HD transparent background in seconds.
+            Upload any image and get a clean HD transparent background in
+            seconds.
           </p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
             <a href="#upload" className="btn-primary text-base">
@@ -149,12 +174,14 @@ function Hero() {
             </a>
           </div>
           <div className="mt-8 grid max-w-2xl grid-cols-1 gap-3 sm:grid-cols-3">
-            {["HD Quality", "Fast Processing", "No Login Required"].map((label) => (
-              <div key={label} className="trust-pill">
-                <Check className="h-4 w-4 text-success" />
-                {label}
-              </div>
-            ))}
+            {["HD Quality", "Fast Processing", "No Login Required"].map(
+              (label) => (
+                <div key={label} className="trust-pill">
+                  <Check className="h-4 w-4 text-success" />
+                  {label}
+                </div>
+              ),
+            )}
           </div>
         </motion.div>
 
@@ -181,10 +208,16 @@ function AnimatedShowcase() {
       >
         <div className="mb-4 flex items-center justify-between">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.24em] text-electric">AI Studio</p>
-            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">Before → Processing → PNG</p>
+            <p className="text-xs font-bold uppercase tracking-[0.24em] text-electric">
+              AI Studio
+            </p>
+            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+              Before → Processing → PNG
+            </p>
           </div>
-          <div className="rounded-full bg-success/10 px-3 py-1 text-xs font-bold text-success">Live</div>
+          <div className="rounded-full bg-success/10 px-3 py-1 text-xs font-bold text-success">
+            Live
+          </div>
         </div>
 
         <div className="grid gap-3 sm:grid-cols-3">
@@ -193,7 +226,11 @@ function AnimatedShowcase() {
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(10,102,255,.4),transparent_34%),radial-gradient(circle_at_80%_70%,rgba(124,58,237,.45),transparent_36%)]" />
             <motion.div
               animate={{ x: ["-35%", "135%"] }}
-              transition={{ duration: 2.3, repeat: Infinity, ease: "easeInOut" }}
+              transition={{
+                duration: 2.3,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
               className="absolute inset-y-0 w-16 rotate-12 bg-white/20 blur-sm"
             />
             <div className="relative z-10 grid h-56 place-items-center sm:h-72">
@@ -203,7 +240,11 @@ function AnimatedShowcase() {
                 <div className="mt-5 h-2 overflow-hidden rounded-full bg-white/15">
                   <motion.div
                     animate={{ x: ["-100%", "120%"] }}
-                    transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+                    transition={{
+                      duration: 1.6,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
                     className="h-full w-2/3 rounded-full bg-white"
                   />
                 </div>
@@ -218,9 +259,17 @@ function AnimatedShowcase() {
   );
 }
 
-function MockImageCard({ label, variant }: { label: string; variant: "before" | "after" }) {
+function MockImageCard({
+  label,
+  variant,
+}: {
+  label: string;
+  variant: "before" | "after";
+}) {
   return (
-    <div className={`relative h-56 overflow-hidden rounded-[1.8rem] border p-4 sm:h-72 ${variant === "after" ? "checker border-slate-200 dark:border-white/10" : "bg-gradient-to-br from-amber/20 via-sky-100 to-violet/20 dark:from-amber/10 dark:via-electric/10 dark:to-violet/20 border-white/80 dark:border-white/10"}`}>
+    <div
+      className={`relative h-56 overflow-hidden rounded-[1.8rem] border p-4 sm:h-72 ${variant === "after" ? "checker border-slate-200 dark:border-white/10" : "bg-gradient-to-br from-amber/20 via-sky-100 to-violet/20 dark:from-amber/10 dark:via-electric/10 dark:to-violet/20 border-white/80 dark:border-white/10"}`}
+    >
       <div className="absolute left-3 top-3 z-10 rounded-full bg-white/80 px-3 py-1 text-xs font-bold text-ink shadow-sm backdrop-blur dark:bg-ink/70 dark:text-white">
         {label}
       </div>
@@ -308,7 +357,7 @@ function UploadStudio() {
             else if (ratio < 0.9) setStage("removing");
             else setStage("preparing");
           }
-        }
+        },
       });
       const url = URL.createObjectURL(blob);
       setResultBlob(blob);
@@ -317,16 +366,18 @@ function UploadStudio() {
     } catch (err) {
       console.error(err);
       const message = err instanceof Error ? err.message : "";
-      const isNetworkIssue = /fetch|network|failed to load|NetworkError/i.test(message);
+      const isNetworkIssue = /fetch|network|failed to load|NetworkError/i.test(
+        message,
+      );
       const isMissingResource = /resource .* not found/i.test(message);
       setError(
         isMissingResource
           ? "The AI model assets are missing or incomplete on the server. Re-run `npm install` to re-download them, then rebuild."
           : isNetworkIssue
-          ? "Couldn't load the AI model. Check your internet connection (the model only needs to download once) and try again."
-          : message
-          ? `Background removal failed: ${message}`
-          : "Background removal failed. Try a different image."
+            ? "Couldn't load the AI model. Check your internet connection (the model only needs to download once) and try again."
+            : message
+              ? `Background removal failed: ${message}`
+              : "Background removal failed. Try a different image.",
       );
       setStage("error");
     }
@@ -348,7 +399,10 @@ function UploadStudio() {
   return (
     <section id="upload" className="px-5 py-24 md:px-8">
       <div className="mx-auto max-w-7xl">
-        <SectionKicker label="AI Upload Studio" title="Drag, drop, preview, compare." />
+        <SectionKicker
+          label="AI Upload Studio"
+          title="Drag, drop, preview, compare."
+        />
 
         <div className="mt-12 grid gap-7 lg:grid-cols-[.86fr_1.14fr]">
           <motion.div
@@ -380,13 +434,18 @@ function UploadStudio() {
                 >
                   <ImagePlus className="h-9 w-9" />
                 </motion.div>
-                <h3 className="mt-7 text-2xl font-extrabold tracking-tight">Drop your image here</h3>
+                <h3 className="mt-7 text-2xl font-extrabold tracking-tight">
+                  Drop your image here
+                </h3>
                 <p className="mx-auto mt-3 max-w-sm text-slate-500 dark:text-slate-400">
                   Click to upload or drag and drop JPG, PNG, and WEBP files.
                 </p>
                 <div className="mt-6 flex flex-wrap justify-center gap-2">
                   {["JPG", "PNG", "WEBP"].map((type) => (
-                    <span key={type} className="rounded-full bg-white px-3 py-1 text-xs font-bold text-slate-500 shadow-sm dark:bg-white/10 dark:text-slate-300">
+                    <span
+                      key={type}
+                      className="rounded-full bg-white px-3 py-1 text-xs font-bold text-slate-500 shadow-sm dark:bg-white/10 dark:text-slate-300"
+                    >
                       {type}
                     </span>
                   ))}
@@ -415,8 +474,12 @@ function UploadStudio() {
             <div className="border-b border-slate-200/70 p-5 dark:border-white/10 md:p-6">
               <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <div>
-                  <p className="text-sm font-bold uppercase tracking-[0.22em] text-electric">Processing</p>
-                  <h3 className="mt-1 text-2xl font-extrabold tracking-tight">{statusText[stage]}</h3>
+                  <p className="text-sm font-bold uppercase tracking-[0.22em] text-electric">
+                    Processing
+                  </p>
+                  <h3 className="mt-1 text-2xl font-extrabold tracking-tight">
+                    {statusText[stage]}
+                  </h3>
                 </div>
                 <StageBadge stage={stage} />
               </div>
@@ -434,11 +497,17 @@ function UploadStudio() {
                   >
                     <div className="text-center text-slate-500">
                       <Sparkles className="mx-auto h-9 w-9 text-electric" />
-                      <p className="mt-4 font-semibold">Your before/after preview appears here.</p>
+                      <p className="mt-4 font-semibold">
+                        Your before/after preview appears here.
+                      </p>
                     </div>
                   </motion.div>
                 ) : (
-                  <motion.div key="result" initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }}>
+                  <motion.div
+                    key="result"
+                    initial={{ opacity: 0, scale: 0.98 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                  >
                     {stage !== "done" || !resultUrl ? (
                       <ProcessingPreview preview={preview} stage={stage} />
                     ) : (
@@ -473,12 +542,24 @@ function UploadStudio() {
   );
 }
 
-function ProcessingPreview({ preview, stage }: { preview: string; stage: Stage }) {
+function ProcessingPreview({
+  preview,
+  stage,
+}: {
+  preview: string;
+  stage: Stage;
+}) {
   const errored = stage === "error";
   return (
     <div className="relative min-h-[410px] overflow-hidden rounded-[1.8rem] bg-ink">
-      <img src={preview} alt="Uploaded preview" className="absolute inset-0 h-full w-full object-contain opacity-70 blur-[1px]" />
-      <div className={`absolute inset-0 ${errored ? "bg-gradient-to-br from-red-900/60 via-ink/55 to-red-700/40" : "bg-gradient-to-br from-ink/45 via-electric/20 to-violet/35"}`} />
+      <img
+        src={preview}
+        alt="Uploaded preview"
+        className="absolute inset-0 h-full w-full object-contain opacity-70 blur-[1px]"
+      />
+      <div
+        className={`absolute inset-0 ${errored ? "bg-gradient-to-br from-red-900/60 via-ink/55 to-red-700/40" : "bg-gradient-to-br from-ink/45 via-electric/20 to-violet/35"}`}
+      />
       {!errored && (
         <motion.div
           animate={{ y: ["-15%", "115%"] }}
@@ -509,7 +590,7 @@ function Comparison({
   original,
   result,
   slider,
-  setSlider
+  setSlider,
 }: {
   original: string;
   result: string;
@@ -535,7 +616,10 @@ function Comparison({
           className="absolute inset-0 h-full w-full object-contain drop-shadow-2xl"
         />
       </div>
-      <div className="pointer-events-none absolute inset-y-0" style={{ left: `${slider}%` }}>
+      <div
+        className="pointer-events-none absolute inset-y-0"
+        style={{ left: `${slider}%` }}
+      >
         <div className="h-full w-1 -translate-x-1/2 bg-white shadow-[0_0_28px_rgba(10,102,255,.45)]" />
         <div className="absolute left-0 top-1/2 grid h-12 w-12 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white font-black text-electric shadow-card">
           VS
@@ -550,8 +634,12 @@ function Comparison({
         onChange={(event) => setSlider(Number(event.target.value))}
         className="absolute inset-x-6 bottom-5 z-20 accent-electric"
       />
-      <div className="absolute left-5 top-5 rounded-full bg-white/85 px-3 py-1 text-xs font-bold text-ink shadow-sm backdrop-blur">Original</div>
-      <div className="absolute right-5 top-5 rounded-full bg-white/85 px-3 py-1 text-xs font-bold text-ink shadow-sm backdrop-blur">Background Removed</div>
+      <div className="absolute left-5 top-5 rounded-full bg-white/85 px-3 py-1 text-xs font-bold text-ink shadow-sm backdrop-blur">
+        Original
+      </div>
+      <div className="absolute right-5 top-5 rounded-full bg-white/85 px-3 py-1 text-xs font-bold text-ink shadow-sm backdrop-blur">
+        Background Removed
+      </div>
     </div>
   );
 }
@@ -574,8 +662,14 @@ function StageBadge({ stage }: { stage: Stage }) {
   }
   const done = stage === "done";
   return (
-    <div className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold ${done ? "bg-success/10 text-success" : "bg-electric/10 text-electric"}`}>
-      {done ? <Check className="h-4 w-4" /> : <Loader2 className="h-4 w-4 animate-spin" />}
+    <div
+      className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold ${done ? "bg-success/10 text-success" : "bg-electric/10 text-electric"}`}
+    >
+      {done ? (
+        <Check className="h-4 w-4" />
+      ) : (
+        <Loader2 className="h-4 w-4 animate-spin" />
+      )}
       {done ? "Ready" : "Working"}
     </div>
   );
@@ -584,7 +678,9 @@ function StageBadge({ stage }: { stage: Stage }) {
 function InfoPill({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-2xl border border-slate-200 bg-white/70 p-4 dark:border-white/10 dark:bg-white/5">
-      <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">{label}</p>
+      <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">
+        {label}
+      </p>
       <p className="mt-1 truncate font-bold">{value}</p>
     </div>
   );
@@ -597,7 +693,9 @@ function SectionKicker({ label, title }: { label: string; title: string }) {
         <Zap className="h-4 w-4 text-electric" />
         {label}
       </div>
-      <h2 className="font-display text-4xl font-extrabold tracking-[-0.045em] md:text-6xl">{title}</h2>
+      <h2 className="font-display text-4xl font-extrabold tracking-[-0.045em] md:text-6xl">
+        {title}
+      </h2>
     </div>
   );
 }
