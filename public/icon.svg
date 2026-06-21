@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="ClearCut AI">
+  <defs>
+    <linearGradient id="g" x1="28" y1="28" x2="228" y2="228">
+      <stop stop-color="#0A66FF"/>
+      <stop offset="1" stop-color="#7C3AED"/>
+    </linearGradient>
+  </defs>
+  <rect width="256" height="256" rx="60" fill="#070A12"/>
+  <path d="M74 78h108c13 0 24 11 24 24v52c0 13-11 24-24 24H74c-13 0-24-11-24-24v-52c0-13 11-24 24-24Z" fill="url(#g)"/>
+  <path d="M91 147c11-31 29-46 53-46 17 0 32 8 45 25v27H69c7-2 14-4 22-6Z" fill="#fff" opacity=".92"/>
+  <circle cx="95" cy="107" r="13" fill="#fff"/>
+</svg>
