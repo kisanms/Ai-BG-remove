@@ -274,14 +274,37 @@ function UseCases() {
 
 function Showcase() {
   const examples = [
-    ["Portrait", UserRound],
-    ["Product", PackageCheck],
-    ["Vehicle", Rocket],
-    ["Pet", PawPrint],
-    ["Nature", Sparkles],
+    [
+      "Portrait",
+      UserRound,
+      "/showcase/portrait.png",
+      "/showcase/portrait-transparent.png",
+    ],
+    [
+      "Product",
+      PackageCheck,
+      "/showcase/product.png",
+      "/showcase/product-transparent.png",
+    ],
+    [
+      "Vehicle",
+      Rocket,
+      "/showcase/vehicle.png",
+      "/showcase/vehicle-transparent.png",
+    ],
+    ["Pet", PawPrint, "/showcase/pet.jpg", "/showcase/pet-transparent.png"],
+    [
+      "Nature",
+      Sparkles,
+      "/showcase/nature.jpg",
+      "/showcase/nature-transparent.png",
+    ],
   ] as const;
   const [active, setActive] = useState(0);
   const [position, setPosition] = useState(50);
+
+  const [, , beforeSrc, afterSrc] = examples[active];
+  const label = examples[active][0];
 
   return (
     <section id="showcase" className="px-5 py-24 md:px-8">
@@ -292,9 +315,9 @@ function Showcase() {
         />
         <div className="mt-12 grid gap-7 lg:grid-cols-[.34fr_.66fr]">
           <div className="space-y-3">
-            {examples.map(([label, Icon], index) => (
+            {examples.map(([itemLabel, Icon], index) => (
               <button
-                key={label}
+                key={itemLabel}
                 onClick={() => setActive(index)}
                 className={`flex w-full items-center justify-between rounded-2xl border p-4 text-left transition ${
                   active === index
@@ -304,35 +327,71 @@ function Showcase() {
               >
                 <span className="flex items-center gap-3 font-extrabold">
                   <Icon className="h-5 w-5" />
-                  {label}
+                  {itemLabel}
                 </span>
                 <ArrowRight className="h-4 w-4" />
               </button>
             ))}
           </div>
+
           <div className="relative min-h-[460px] overflow-hidden rounded-[2rem] border border-white/70 bg-white/75 shadow-card backdrop-blur-xl dark:border-white/10 dark:bg-white/[0.055]">
+            {/* Soft gradient backdrop behind the "Before" image */}
             <div className="absolute inset-0 bg-gradient-to-br from-amber/20 via-sky-100 to-violet/20 dark:from-amber/10 dark:via-electric/10 dark:to-violet/20" />
-            <Illustration category={examples[active][0]} />
+
+            {/* BEFORE: full original photo */}
+            <motion.img
+              key={`before-${label}`}
+              src={beforeSrc}
+              alt={`${label} original`}
+              initial={{ opacity: 0, scale: 1.02 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.4 }}
+              className="absolute inset-0 h-full w-full object-contain p-6 md:p-10"
+              draggable={false}
+            />
+
+            {/* AFTER: checker + transparent PNG, clipped to the right of the slider */}
             <div
-              className="checker absolute inset-0 overflow-hidden"
+              className="absolute inset-0 overflow-hidden"
               style={{ clipPath: `inset(0 0 0 ${position}%)` }}
             >
-              <Illustration category={examples[active][0]} clean />
+              <div className="checker absolute inset-0" />
+              <motion.img
+                key={`after-${label}`}
+                src={afterSrc}
+                alt={`${label} background removed`}
+                initial={{ opacity: 0, scale: 1.02 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4 }}
+                className="absolute inset-0 h-full w-full object-contain p-6 md:p-10"
+                draggable={false}
+              />
             </div>
+
+            {/* Before / After badges */}
+            <span className="pointer-events-none absolute left-4 top-4 rounded-full bg-ink/80 px-3 py-1 text-[11px] font-black uppercase tracking-wider text-white backdrop-blur">
+              Before
+            </span>
+            <span className="pointer-events-none absolute right-4 top-4 rounded-full bg-electric/90 px-3 py-1 text-[11px] font-black uppercase tracking-wider text-white backdrop-blur">
+              After
+            </span>
+
+            {/* Slider divider + handle */}
             <div
               className="pointer-events-none absolute inset-y-0"
               style={{ left: `${position}%` }}
             >
-              <div className="h-full w-1 -translate-x-1/2 bg-white" />
+              <div className="h-full w-1 -translate-x-1/2 bg-white shadow-[0_0_18px_rgba(10,102,255,0.55)]" />
               <span className="absolute left-0 top-1/2 grid h-12 w-12 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white text-xs font-black text-electric shadow-card">
                 SLIDE
               </span>
             </div>
+
             <input
               aria-label="Showcase comparison slider"
               type="range"
-              min="12"
-              max="88"
+              min="0"
+              max="100"
               value={position}
               onChange={(event) => setPosition(Number(event.target.value))}
               className="absolute inset-x-8 bottom-8 z-10 accent-electric"
